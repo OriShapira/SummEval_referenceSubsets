@@ -1,6 +1,6 @@
 # SummEval_referenceSubsets
 Code for the analysis of using different subsets of reference summaries for the evaluation of summaries, based on DUC 2001/2002 data, using ROUGE as the automatic evaluation package.
-The code and results here are supplementary to the paper: *TODO: To be updated after acceptance*.
+The code and results here are supplementary to the paper: [Evaluating Multiple System Summary Lengths: A Case Study](https://aclanthology.coli.uni-saarland.de/papers/D18-1087/d18-1087) (EMNLP 2018).
 
 ## Data
 The data used for the analyses are the DUC 2001 and DUC 2002 multi-document summarization data since these datasets are the only ones containing different length reference (model) summaries of each document cluster, along with human assessment of the system summaries submitted for the shared tasks.
@@ -69,8 +69,7 @@ The subset types possible are ONE_PER_AUTHOR or ONE_PER_LENGTH.
 ## Results
 The results are are the outputs of the scripts above when run on the DUC 2001 and 2002 data. A few tables are sampled in the paper.
 The ROUGE scores and correlations are divided into *stop-words removed* and *stop-words remaining* folders.
-For more information on how human assessed scores and correlations were calculated, see the supplementary material PDF.
-*TODO: Include the supplementary material PDF for explanations after acceptance*
+For more information on how human assessed scores and correlations were calculated, see the [supplementary material PDF](https://orishapira.files.wordpress.com/2018/12/emnlp_2018_varyingLengthRouge_supplementaryMaterial.pdf).
 
 *  Human Scores
     *  As ouput by `calculateHumanAssessment.py`
