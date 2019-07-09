@@ -174,7 +174,7 @@ def runRougeCombinations(comparisonType, folderSystems, folderModels, systemName
             
             # The system summary files to use for this iteration are the multi-doc ones
             # for the current length, for the current system:
-            sysSummFilenamePattern = '(.*).M.{}.(.*).{}.html'.format(summLen, sysName)
+            sysSummFilenamePattern = '(.*).M.{}.(.*)\.{}.html'.format(summLen, sysName)
             
             # set the properties for the ROUGE object:
             rougeCalculator.system_dir = folderSystems
