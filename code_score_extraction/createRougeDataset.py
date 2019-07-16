@@ -4,6 +4,7 @@ from nltk.tokenize import sent_tokenize
 import calculateRouge
 import numpy as np
 import time
+import pickle
 
 from spacy.lang.en import English
 
@@ -115,7 +116,7 @@ num_summ_sent = summ_sentences_extract(args.input_summ, args.summ_sent_dir)
 rouge_mat = np.zeros((num_doc_sent,num_summ_sent))
 
 
-for summ_sent_idx, summ_dir in enumerate(os.listdir(args.summ_sent_dir)):
+for summ_dir in os.listdir(args.summ_sent_dir):
     INPUTS = [(calculateRouge.COMPARE_SAME_LEN, os.path.join(args.summ_sent_dir,summ_dir),args.doc_sent_dir, None, None, calculateRouge.LEAVE_STOP_WORDS)]
     startTime = time.time()
     # Go over each input:
@@ -129,9 +130,10 @@ for summ_sent_idx, summ_dir in enumerate(os.listdir(args.summ_sent_dir)):
     # output scores to CSV:
     # calculateRouge.outputToCsv(allData, r'C:\Users\user\Documents\Phd\rouge\SummEval_referenceSubsets\code_score_extraction\try.csv', systemNames, summaryLengths)
     rouge_vec = extractRouge(allData, systemNames, summaryLengths)
-    rouge_mat[:, summ_sent_idx] = rouge_vec
+    rouge_mat[:, int(summ_dir)] = rouge_vec
     curTime = time.time()
     print('Current input done! Elapsed time: {} seconds!'.format(curTime - startTime))
 print('---- DONE WITH ALL INPUTS')
 
-
+with open('rouge_mat.pickle', 'wb') as handle:
+    pickle.dump(rouge_mat, handle)
