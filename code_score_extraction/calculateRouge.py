@@ -45,16 +45,16 @@ FORMAT_SEE = 'SEE'
 FORMAT_TEXT = 'text'
 
 # The input format to use - CHANGE THIS TO "FORMAT_TEXT" IF THE INPUT SUMMARIES ARE NOT IN SEE FORMAT:
-INPUT_FORMAT = FORMAT_SEE
+INPUT_FORMAT = FORMAT_TEXT
 # THE INPUTS TO RUN IN A LOOP - CHANGE YOUR INPUTS HERE:
 # Each input: (comparisonType, modelSummariesFolderPath, systemSummariesFolderPath, outputCSVfilepath, DUC year [2001|2002], stopWordsMode)
-INPUTS = [
+INPUTS = [(COMPARE_SAME_LEN, 'golden2004','system2004', '2002_diffLens2007.csv', 2002, REMOVE_STOP_WORDS)]
     # EXAMPLES:
-    (COMPARE_VARYING_LEN, 'data/DUC2002/SEE.model_edited.abstracts.in.edus', 'data/DUC2002/SEE.peer_abstracts.in.sentences', '2002_diffLens.csv', 2002, LEAVE_STOP_WORDS),
-    (COMPARE_SAME_LEN, 'data/DUC2001/see.models', 'data/DUC2001/submissions.for.SEE', '2001_sameLen_noStops.csv', 2001, REMOVE_STOP_WORDS),
-    (COMPARE_TO_SMALLEST, 'data/DUC2002/SEE.model_edited.abstracts.in.edus', 'data/DUC2002/SEE.peer_abstracts.in.sentences', '2002_to010_noStops.csv', 2002, REMOVE_STOP_WORDS),
-    (COMPARE_TO_ONE_SMALLER, 'data/DUC2001/see.models', 'data/DUC2001/submissions.for.SEE', '2001_toOneShorter_noStops.csv', 2001, REMOVE_STOP_WORDS)
-    ]
+    # (COMPARE_VARYING_LEN, 'data/DUC2002/SEE.model_edited.abstracts.in.edus', 'data/DUC2002/SEE.peer_abstracts.in.sentences', '2002_diffLens.csv', 2002, LEAVE_STOP_WORDS),
+    # (COMPARE_SAME_LEN, 'data/DUC2001/see.models', 'data/DUC2001/submissions.for.SEE', '2001_sameLen_noStops.csv', 2001, REMOVE_STOP_WORDS),
+    # (COMPARE_TO_SMALLEST, 'data/DUC2002/SEE.model_edited.abstracts.in.edus', 'data/DUC2002/SEE.peer_abstracts.in.sentences', '2002_to010_noStops.csv', 2002, REMOVE_STOP_WORDS),
+    # (COMPARE_TO_ONE_SMALLER, 'data/DUC2001/see.models', 'data/DUC2001/submissions.for.SEE', '2001_toOneShorter_noStops.csv', 2001, REMOVE_STOP_WORDS)
+    # ]
     
 def getComparisonOptions(folderSystems, folderModels):
     '''
@@ -174,7 +174,7 @@ def runRougeCombinations(comparisonType, folderSystems, folderModels, systemName
             
             # The system summary files to use for this iteration are the multi-doc ones
             # for the current length, for the current system:
-            sysSummFilenamePattern = '(.*).M.{}.(.*).{}.html'.format(summLen, sysName)
+            sysSummFilenamePattern = '(.*).M.{}.(.*)\.{}.html'.format(summLen, sysName)
             
             # set the properties for the ROUGE object:
             rougeCalculator.system_dir = folderSystems
