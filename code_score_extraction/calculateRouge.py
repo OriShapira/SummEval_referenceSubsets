@@ -34,10 +34,10 @@ ROUGE_TYPES = {
     'R2':'rouge_2',
     'R3':'rouge_3',
     'R4':'rouge_4',
-    'RSU':'rouge_su*',
+    'RSU':'rouge_su4',
     'RL':'rouge_l',
     'RW':'rouge_w_1.2',
-    'RS':'rouge_s*'}
+    'RS':'rouge_s4'}
 
 # The format in which the input summaries are. SEE is the DUC html format which ROUGE uses.
 # Regular text format can also be used, where each sentence is on a separate line (has time and space overhead).
@@ -94,15 +94,15 @@ def getComparisonOptions(folderSystems, folderModels):
             systemNames['P'][systemName] = 1
             
     # remove the model names from the system names found:
-    for filename in os.listdir(folderModels):
-        nameParts = filename.split('.')
-        if len(nameParts) < 5:
-            continue
-        modelName = nameParts[4]
-        if nameParts[1] == 'M' and modelName in systemNames['M']:
-            del systemNames['M'][modelName]
-        elif nameParts[1] == 'P' and modelName in systemNames['P']:
-            del systemNames['P'][modelName]
+    #for filename in os.listdir(folderModels):
+    #    nameParts = filename.split('.')
+    #    if len(nameParts) < 5:
+    #        continue
+    #    modelName = nameParts[4]
+    #    if nameParts[1] == 'M' and modelName in systemNames['M']:
+    #        del systemNames['M'][modelName]
+    #    elif nameParts[1] == 'P' and modelName in systemNames['P']:
+    #        del systemNames['P'][modelName]
     
     # take just the multi-doc info and sort it:
     taskNames = sorted(taskNames['M'].keys())
@@ -185,8 +185,10 @@ def runRougeCombinations(comparisonType, folderSystems, folderModels, systemName
             # add the ROUGE flag to truncate the system summaries according to their defined length:
             rougeAdditionalParams = ['-l', int(summLen)]
             # possibly add the ROUGE flag to remove stop words:
+            stopWords = ''
             if stopWordsRemoval == REMOVE_STOP_WORDS:
                 rougeAdditionalParams.append('-s')
+                stopWords = '-s'
             rougeCalculator.add_rouge_args_to_default(rougeAdditionalParams)
             
             try:
@@ -195,7 +197,7 @@ def runRougeCombinations(comparisonType, folderSystems, folderModels, systemName
                 if INPUT_FORMAT == FORMAT_SEE:
                     output = rougeCalculator.evaluate()
                 elif INPUT_FORMAT == FORMAT_TEXT:
-                    output = rougeCalculator.convert_and_evaluate()
+                    output = rougeCalculator.convert_and_evaluate(split_sentences=True, rouge_args='-e {} -c 95 -2 4 -U -r 1000 -n 4 -w 1.2 -a -l {} {}'.format(rougeCalculator._data_dir,int(summLen), stopWords))
                     
                 # get the ROUGE output:
                 output_dict = rougeCalculator.output_to_dict(output)
